@@ -5,3 +5,4 @@
 
 **注意事项**：
 - 每次先从GitHub拉取再提交，防止不一致冲突
+- 测试没有用git config --global http.sslVerify "false"，是否能提交成功
