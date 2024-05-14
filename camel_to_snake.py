@@ -18,9 +18,28 @@ def print_snake(camel_names:list):
         snake_name = camel_to_snake(camel_name)
         print(f'{snake_name}')
 
+def deal_normal(str):
+    modified_str = str1.replace("\n", "','")
+    print("'"+modified_str+"'")
+
+    
+
 if __name__ == '__main__':
     # 测试用例
     camel_names = ['DueDiligenceInd', 'Payment','DueDiligenceInd','FormerCountryName','DistrictName','POB','PostCode']
-    print_snake(camel_names)   
+    print_snake(camel_names)
+    str1 = """
+201
+202
+203
+204
+205
+206
+207
+"""
+    deal_normal(str1)
+    
+
+
         
         
