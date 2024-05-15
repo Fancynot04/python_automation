@@ -1,3 +1,6 @@
+import xlwt
+import re 
+
 def camel_to_snake(name):
     """
         function: 将驼峰命名转换为下划线并全大写的写法
@@ -22,23 +25,47 @@ def deal_normal(str):
     modified_str = str1.replace("\n", "','")
     print("'"+modified_str+"'")
 
-    
-
+def deal_row(strs):
+    for str in strs.split('\n'):
+        if(str.split('\t')[0]== "#"):
+            print('\n')
+            print(str.split('\t')[1],end='')
+            print('\t',end='')
+        else:
+            print(str.replace("\t", "-")+';',end='')
+    with open('./demo.txt',encoding='UTF-8') as f:
+        for line in f: 
+            print(line)
+def write_in_excel():
+    f = open('./demo.txt','r',encoding='utf-8') #打开数据文本文档，注意编码格式的影响  
+    wb = xlwt.Workbook(encoding = 'utf-8') #新建一个excel文件
+    ws1 = wb.add_sheet('数据源字典表') #添加一个新表，名字为数据源字典表
+    ws1.write(0,0,'字典名称')
+    ws1.write(0,1,'字典值列表')
+    row = 1 #写入的起始行
+    col = 0 #写入的起始列
+    #通过row和col的变化实现指向单元格位置的变化
+    for line in f: 
+        if(line != '\n'):
+            arr= re.split(r'\s+', line) #txt文件中每行的内容按逗号分割并存入数组中
+            for i in range(len(arr)):
+                ws1.write(row, col ,arr[i])#向Excel文件中写入每一项
+                col += 1
+            row += 1
+            col = 0
+            
+    wb.save("数据源字典表.xls")
 if __name__ == '__main__':
     # 测试用例
     camel_names = ['DueDiligenceInd', 'Payment','DueDiligenceInd','FormerCountryName','DistrictName','POB','PostCode']
-    print_snake(camel_names)
+    # print_snake(camel_names)
     str1 = """
-201
-202
-203
-204
-205
-206
-207
-"""
-    deal_normal(str1)
+    """
+    # deal_row(str1)
+    write_in_excel()
     
+
+
 
 
         
