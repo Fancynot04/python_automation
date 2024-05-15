@@ -2,11 +2,6 @@ import xlwt
 import re 
 
 def camel_to_snake(name):
-    """
-        function: 将驼峰命名转换为下划线并全大写的写法
-        create_date: 2024-05-08
-        explanation: result接收结果，函数对每个命名处理，遇到大写则在前添加下划线并将其小写
-    """
     result = [name[0].lower()]
     for char in name[1:]:
         # print(char)
@@ -17,6 +12,11 @@ def camel_to_snake(name):
     return ''.join(result).upper()
 
 def print_snake(camel_names:list):
+    """
+        function: 将驼峰命名转换为下划线并全大写的写法
+        create_date: 2024-05-08
+        explanation: result接收结果，函数对每个命名处理，遇到大写则在前添加下划线并将其小写
+    """
     for camel_name in camel_names:
         snake_name = camel_to_snake(camel_name)
         print(f'{snake_name}')
@@ -26,6 +26,13 @@ def deal_normal(str):
     print("'"+modified_str+"'")
 
 def deal_row(strs):
+    """
+        #	受益方式        
+        0	自益
+        1	他益        -->  受益权类型 0-普通;1-优先;2-中间;3-劣后;
+        2	自益+他益
+        4	公益
+    """
     for str in strs.split('\n'):
         if(str.split('\t')[0]== "#"):
             print('\n')
@@ -33,10 +40,10 @@ def deal_row(strs):
             print('\t',end='')
         else:
             print(str.replace("\t", "-")+';',end='')
-    with open('./demo.txt',encoding='UTF-8') as f:
-        for line in f: 
-            print(line)
 def write_in_excel():
+    """
+        将如a  b c(txt) --> 写入excel    
+    """
     f = open('./demo.txt','r',encoding='utf-8') #打开数据文本文档，注意编码格式的影响  
     wb = xlwt.Workbook(encoding = 'utf-8') #新建一个excel文件
     ws1 = wb.add_sheet('数据源字典表') #添加一个新表，名字为数据源字典表
@@ -47,13 +54,12 @@ def write_in_excel():
     #通过row和col的变化实现指向单元格位置的变化
     for line in f: 
         if(line != '\n'):
-            arr= re.split(r'\s+', line) #txt文件中每行的内容按逗号分割并存入数组中
+            arr= re.split(r'\s+', line) #txt文件中每行的内容按多行空格分割并存入数组中
             for i in range(len(arr)):
                 ws1.write(row, col ,arr[i])#向Excel文件中写入每一项
                 col += 1
             row += 1
             col = 0
-            
     wb.save("数据源字典表.xls")
 if __name__ == '__main__':
     # 测试用例
