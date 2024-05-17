@@ -21,22 +21,5 @@ def compress_video_files(folder_path, extensions=('.mp4', '.avi', '.mov')):
                     zipf.write(file_path, arcname=os.path.relpath(file_path, os.path.dirname(zip_file_path)))
                     
                 print(f"Compressed {file_path} to {zip_file_path}")  
-  
-# 使用示例  
-# compress_video_files(r'D:\xhh鱼酱\Videos')
 
-import pandas as pd  
   
-# 您的数据字典  
-data = {    
-    '受益人方式': ['0-自益;1-他益;2-自益+他益;4-公益;'],    
-    '受托职责': ['0-主动管理;1-被动管理;']    
-}  
-  
-# 由于每个键只对应一个列表元素（即一个字符串），  
-# 我们不需要进一步拆分这些列表。可以直接创建一个 DataFrame。  
- 
-  
-# 将 DataFrame 写入 Excel 文件  
-output_file = 'data.xlsx'  
-df.to_excel(output_file, index=False, engine='openpyxl')  

@@ -1,6 +1,5 @@
 import xlwt
 import re 
-
 def camel_to_snake(name):
     result = [name[0].lower()]
     for char in name[1:]:
