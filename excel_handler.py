@@ -38,25 +38,28 @@ def handler_excel(filepath:str,output_file:str):
     print('Excel生成成功')
 
 def deal2in1_excel():
+    """
+        function:
+            类似handler_excel的逆过程,不过源文件涉及到两个excel处理
+    """
     df_map1 = pandas.read_excel(r'D:\workspace\src\规范正文：金融监管总局信托业监管数据标准化规范一览表（2024版）.xlsx',sheet_name='Sheet1')\
-            .rename(columns={1: '字典编码', 2: '字典名'})
+            .rename(columns={0: '字典编码', 1: '字典名'})
     df_map2 = pandas.read_excel(r'D:\workspace\src\East数据字典设置.xlsx',usecols=['字典名','字典项列表'],sheet_name='数据来源')    
     df_goal = pandas.DataFrame()
     # 拆分函数，接受一个字符串，返回一个列表 
     def split_str(text):
         if '；' in text:
             return [item.strip('。 ') for item in text.split('；') if item.strip()]
-        if '、' in text:
-            return [item.strip('。 ') for item in text.split('、') if item.strip()]
         if '，' in text:
             return [item.strip('。 ') for item in text.split('，') if item.strip()]
+        if '、' in text:
+            return [item.strip('。 ') for item in text.split('、') if item.strip()]
         else:
             return [text.strip('。 ')]
-            
-    df_goal['字典描述'] = df_map2.loc[1].apply(split_str).explode()    
+               
     df_goal = df_map2.assign(字典描述=df_map2['字典项列表'].apply(split_str))\
             .explode('字典描述')\
-            .drop(columns=['字典项列表'])
+            .drop(columns=['字典项列表']) # df.drop('字典项列表', axis=1, inplace=True) 删除列，并修改源df
     
     df_goal['字典码值'] = df_goal.groupby('字典名').cumcount() + 1    
     df_goal = pandas.merge(df_map1, df_goal,on='字典名', how='right')\
@@ -69,7 +72,14 @@ def deal2in1_excel():
     
 if __name__ == '__main__':
     # handler_excel('./数据源字典表.xls','./目标test.xlsx')
-    deal2in1_excel()
+    # deal2in1_excel()
+    df = pandas.DataFrame([[1, 2], [3, 4]], columns = ['a','b'])
+    df2 = pandas.DataFrame([[5, 6], [7, 8]], columns = ['a','b'])
+    print(df)
+    print('-----------------------------------')
+    print(df2)
+    print('-----------------------------------')
+    print(df.append(df2).reset_index(drop=True).drop(0))
      
 
 
