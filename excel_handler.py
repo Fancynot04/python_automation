@@ -1,7 +1,10 @@
 import pandas
-def process_data(df):  
+def process_data(df,df_check_crs,camel_to_snake):  
     df['combine'] = df.apply(lambda row:row['字典值'].astype(str) + '-' + row['中文描述'], axis=1) # axis=1即为在行方向进行计算
     df['字典名称'] = df.apply(lambda row:row['中文描述'] if row['字典值']=='#' else None)
+    mask = df_check_crs['对应字段'].isnull() | (df_check_crs['对应字段'] == '')  
+    df_check_crs.loc[mask,'对应字段'] = df_check_crs.loc[mask,'元素'].apply(camel_to_snake)
+    df_check_crs.to_excel(r'D:\workspace\src\df_check_crs.xlsx', index=False)
            
  
 def handler_excel(filepath:str,output_file:str):
@@ -72,14 +75,14 @@ def deal2in1_excel():
     
 if __name__ == '__main__':
     # handler_excel('./数据源字典表.xls','./目标test.xlsx')
-    # deal2in1_excel()
-    df = pandas.DataFrame([[1, 2], [3, 4]], columns = ['a','b'])
-    df2 = pandas.DataFrame([[5, 6], [7, 8]], columns = ['a','b'])
-    print(df)
-    print('-----------------------------------')
-    print(df2)
-    print('-----------------------------------')
-    print(df.append(df2).reset_index(drop=True).drop(0))
+    deal2in1_excel()
+    # df = pandas.DataFrame([[1, 2], [3, 4]], columns = ['a','b'])
+    # df2 = pandas.DataFrame([[5, 6], [7, 8]], columns = ['a','b'])
+    # print(df)
+    # print('-----------------------------------')
+    # print(df2)
+    # print('-----------------------------------')
+    # print(df.append(df2).reset_index(drop=True).drop(0))
      
 
 
