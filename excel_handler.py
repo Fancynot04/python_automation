@@ -46,7 +46,7 @@ def deal2in1_excel():
             类似handler_excel的逆过程,不过源文件涉及到两个excel处理
     """
     df_map1 = pandas.read_excel(r'D:\workspace\src\规范正文：金融监管总局信托业监管数据标准化规范一览表（2024版）.xlsx',sheet_name='Sheet1')\
-            .rename(columns={0: '字典编码', 1: '字典名'})
+            .rename(columns={0: '字典编码', 1: '字典名'}) # 直接在read_excel中使用columns参数，列名必须在excel中存在
     df_map2 = pandas.read_excel(r'D:\workspace\src\East数据字典设置.xlsx',usecols=['字典名','字典项列表'],sheet_name='数据来源')    
     df_goal = pandas.DataFrame()
     # 拆分函数，接受一个字符串，返回一个列表 

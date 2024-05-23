@@ -60,8 +60,8 @@ def crs_check_excel():
                 '{row[3] if pandas.notnull(row[3]) else 'NULL'}',  
                 '{row[4] if pandas.notnull(row[4]) else 'NULL'}',
                 '{row[6]}' 
-            );  
-        """  
+            );
+        """
         return str_sql
     basic_check_RS['INSERT_SQL'] = basic_check_RS.apply(lambda row: row_split_deal(row),axis=1)
     # 按照TABLE_NAME和COLUMN_CHN_NAME进行排序
@@ -79,8 +79,11 @@ def crs_check_excel():
     # print(basic_check_RS)
     basic_check_RS.to_excel(r'D:\workspace\src\basic_check_RS.xlsx',index=False)
 
+def crs_rule_excel(): 
+    pass
 
 if __name__ == "__main__":
     crs_check_excel()
+
     
     
