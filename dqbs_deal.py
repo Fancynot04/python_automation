@@ -31,27 +31,28 @@ blocklist = ['ZJLX5', 'ZJLX5_JG', 'ZJLX5_GR', 'ZJLX5_JRCP', 'KFYWLX', 'PHJRLX', 
             'CPYXFS', 'FXCSNL', 'CZQSW', 'WTRXS', 'HZZT', 'DZYWZT5', 'ZCLBDL', 'ZCLBMX', 'PJJGMC', 'WTZCLX5']
 
 def dqbs_merge():
-    dqbs_map = pandas.read_excel(r"D:\donghua\数据集市规则定义202404.xlsx",sheet_name="dqbs映射")
-    dqbs_map.columns = ['源字典编码','源字典项值','源字典项描述','空','目标字典值','目标字典描述','dqbs描述']
-    dqbs_map['dqbs描述'] = dqbs_map['dqbs描述'].apply(lambda x: x.split(':')[0] if pandas.notna(x) else None)\
-        .fillna(method='ffill') # forward fill
-    dqbs_map['源字典编码'] = dqbs_map['源字典编码'].fillna(method='ffill')
-        # .apply(lambda x: 'BP_' + x  if pandas.notnull(x) and x in blocklist else x)
+   dqbs_map = pandas.read_excel(r"D:\donghua\数据集市规则定义202404.xlsx",sheet_name="dqbs映射")
+   dqbs_map.columns = ['源字典编码','源字典项值','源字典项描述','空','目标字典值','目标字典描述','dqbs描述']
+   dqbs_map['dqbs描述'] = dqbs_map['dqbs描述'].apply(lambda x: x.split(':')[0] if pandas.notna(x) else None)\
+      .fillna(method='ffill') # forward fill
+   dqbs_map['源字典编码'] = dqbs_map['源字典编码'].fillna(method='ffill')
+      # .apply(lambda x: 'BP_' + x  if pandas.notnull(x) and x in blocklist else x)
 
-    dqbs_phrase = pandas.read_excel(r"D:\donghua\数据集市规则定义202404.xlsx",sheet_name="dqbs字典")
-    dqbs_phrase.columns = ['index','字典编码','字典名称']
+   dqbs_phrase = pandas.read_excel(r"D:\donghua\数据集市规则定义202404.xlsx",sheet_name="dqbs字典")
+   dqbs_phrase.columns = ['index','字典编码','字典名称']
 
-    dqbs_rs = pandas.merge(
-            dqbs_map.loc[:,['源字典编码','源字典项值','源字典项描述','目标字典值','目标字典描述','dqbs描述']],
-            dqbs_phrase.loc[:,['字典编码','字典名称']],
-            left_on='dqbs描述',right_on='字典名称',how='left').drop('dqbs描述',axis=1)
-    dqbs_rs['系统标识'] = 'DQBS'
-    dqbs_rs['有效状态'] = '1'
-    dqbs_rs['源系统标识'] = 'MARKET'
-    dqbs_rs = dqbs_rs.reindex(
-        columns=['系统标识','字典编码','字典名称','源系统标识','源字典编码','源字典项值','源字典项描述','目标字典值','目标字典描述','有效状态']
-        ).reset_index(drop=True) # 重新索引，删除之前的索引
-    dqbs_rs.to_excel(r'D:\donghua\dqbs_rs_504.xlsx',index=False)
+   dqbs_rs = pandas.merge(
+         dqbs_map.loc[:,['源字典编码','源字典项值','源字典项描述','目标字典值','目标字典描述','dqbs描述']],
+         dqbs_phrase.loc[:,['字典编码','字典名称']],
+         left_on='dqbs描述',right_on='字典名称',how='left').drop('dqbs描述',axis=1)
+   dqbs_rs['系统标识'] = 'DQBS'
+   dqbs_rs['有效状态'] = '1'
+   dqbs_rs['源系统标识'] = 'MARKET'
+   dqbs_rs = dqbs_rs.reindex(
+      columns=['系统标识','字典编码','字典名称','源系统标识','源字典编码','源字典项值','源字典项描述','目标字典值','目标字典描述','有效状态']
+      ).reset_index(drop=True) # 重新索引，删除之前的索引
+   dqbs_rs.to_excel(r'D:\donghua\dqbs_rs_504.xlsx',index=False)
 
 if __name__ == '__main__':
    pass
+   dqbs_merge()
