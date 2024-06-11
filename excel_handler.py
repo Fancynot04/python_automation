@@ -74,15 +74,25 @@ def deal2in1_excel():
     print(f'字典名个数：{unique_count}')
     
 if __name__ == '__main__':
-    # handler_excel('./数据源字典表.xls','./目标test.xlsx')
-    deal2in1_excel()
-    # df = pandas.DataFrame([[1, 2], [3, 4]], columns = ['a','b'])
-    # df2 = pandas.DataFrame([[5, 6], [7, 8]], columns = ['a','b'])
-    # print(df)
-    # print('-----------------------------------')
-    # print(df2)
-    # print('-----------------------------------')
-    # print(df.append(df2).reset_index(drop=True).drop(0))
+    # deal2in1_excel()
+    df_new = pandas.read_excel(r'D:\donghua\6-7 对比\对比专用表格.xlsx',sheet_name='新')
+    df_old = pandas.read_excel(r'D:\donghua\6-7 对比\对比专用表格.xlsx',sheet_name='旧')
+    name_map = pandas.read_excel(r'D:\donghua\6-7 对比\对比专用表格.xlsx',sheet_name='中英对应').drop_duplicates() 
+    df_new_1 = df_new[ ~ df_new['数据项名称'].isna()].groupby(['表编号','表名']).agg({'数据项编号':'count'}).reset_index()
+    # rs = pandas.merge(df_new_1,name_map,left_on='表名',right_on='表中文名',how='left')
+    pandas.merge(df_new_1,name_map,left_on='表名',right_on='表中文名',how='left')\
+        .drop('表中文名',axis=1)\
+        .reindex(
+            columns=['表编号','表名','表英文名','数据项编号']
+        ).reset_index(drop=True)\
+        .to_excel(r'D:\donghua\6-7 对比\输出结果.xlsx',index=False)
+        
+    df_old_1 = df_old[ ~ df_new['数据项名称'].isna()].groupby(['表名','传输文件名称']).agg({'数据项编码':'count'}).reset_index()
+    df_old_1.to_excel(r'D:\donghua\6-7 对比\输出结果2.xlsx',index=False)
+    
+
+
+    
      
 
 
