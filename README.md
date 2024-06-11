@@ -4,6 +4,8 @@
 > 持续更新中...
 > 准备学习单片机相关的知识 [51单片机]
 
+> pip3 install ipykernel -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+
 **注意事项**：
 - 每次先从GitHub拉取再提交，防止不一致冲突
 - 测试没有用git config --global http.sslVerify "false"，是否能推送成功
@@ -17,6 +19,11 @@
 - userProfile虚拟机安装完毕，尚未配置环境
 
 ## Python with Pandas
+
+格式要求：
+    1. 装到统一的容器中，要求表名在pandas处理前就能够统一，方便操作
+    2. 对于空行、重复可以pandas处理，尽量做好关联字段一致
+    3. 关联字段列名不同时都会保留，列名相同时只保留一个
 
 一、pandas中的基本数据结构
 ```properties

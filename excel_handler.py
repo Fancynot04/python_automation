@@ -73,22 +73,49 @@ def deal2in1_excel():
     unique_count = df_goal['字典名'].nunique()
     print(f'字典名个数：{unique_count}')
     
-if __name__ == '__main__':
-    # deal2in1_excel()
-    df_new = pandas.read_excel(r'D:\donghua\6-7 对比\对比专用表格.xlsx',sheet_name='新')
-    df_old = pandas.read_excel(r'D:\donghua\6-7 对比\对比专用表格.xlsx',sheet_name='旧')
-    name_map = pandas.read_excel(r'D:\donghua\6-7 对比\对比专用表格.xlsx',sheet_name='中英对应').drop_duplicates() 
+def compare_excel():
     df_new_1 = df_new[ ~ df_new['数据项名称'].isna()].groupby(['表编号','表名']).agg({'数据项编号':'count'}).reset_index()
     # rs = pandas.merge(df_new_1,name_map,left_on='表名',right_on='表中文名',how='left')
+    name_map = pandas.read_excel(r'D:\文档\对比专用表格.xlsx',sheet_name='中英对应').drop_duplicates() 
     pandas.merge(df_new_1,name_map,left_on='表名',right_on='表中文名',how='left')\
         .drop('表中文名',axis=1)\
         .reindex(
             columns=['表编号','表名','表英文名','数据项编号']
         ).reset_index(drop=True)\
-        .to_excel(r'D:\donghua\6-7 对比\输出结果.xlsx',index=False)
+        .to_excel(r'D:\文档\输出结果.xlsx',index=False)
         
-    df_old_1 = df_old[ ~ df_new['数据项名称'].isna()].groupby(['表名','传输文件名称']).agg({'数据项编码':'count'}).reset_index()
-    df_old_1.to_excel(r'D:\donghua\6-7 对比\输出结果2.xlsx',index=False)
+    df_old_1 = df_old[ ~ df_old['数据项名称'].isna()].groupby(['表名','传输文件名称']).agg({'数据项编号':'count'}).reset_index()
+        
+
+
+if __name__ == '__main__':
+    # deal2in1_excel()
+    path_1 = 'D:\文档'
+    path_2 = 'D:\donghua\6-7 对比'
+    
+    df_new = pandas.read_excel(r'D:\文档\对比专用表格.xlsx',sheet_name='新')
+    df_new_1 = df_new[~ df_new['数据项名称new'].isna()]
+    df_new_1['是否主键'] = df_new.apply(lambda row: '是' if pandas.notna(row['备注']) and 'PK' in str(row['备注']) else '否',axis=1)
+    df_new_1['是否必填'] = df_new['是否必填'].apply(lambda x: '是' if pandas.notna(x) and '必填' in str(x) else '否')  
+    
+    df_old = pandas.read_excel(r'D:\文档\对比专用表格.xlsx',sheet_name='旧')
+    df_old_1 = df_old[~ df_old['数据项名称old'].isna()]
+    df_old_1['是否主键'] = df_old.apply(lambda row: '是' if pandas.notna(row['备注']) and 'PK' in str(row['备注']) else '否',axis=1)
+    df_old_1['是否必填'] = df_old['是否必填'].apply(lambda x: '是' if pandas.notna(x) and '必填' in str(x) else '否')
+
+    
+    df_link = pandas.read_excel(r'D:\文档\对比专用表格.xlsx',sheet_name='关联',usecols=['新规表中文名','新规表英文名','原表中文名','原表英文名'])
+    df_m1 = pandas.merge(df_new_1.loc[:,['表名','数据项代码','数据项名称new','数据元','数据元编码','是否主键','是否必填','具体差异','格式']],df_link,left_on='表名',right_on='新规表中文名', how='left')	
+    df_m2 = pandas.merge(df_m1.loc[:,['具体差异','表名','新规表英文名','数据项代码','数据项名称new','格式','数据元','数据元编码','是否主键','是否必填','原表中文名']],
+                         df_old_1.loc[:,['表名','数据项代码','数据项名称old','格式','数据元','数据元编码','是否必填','是否主键']],
+                         left_on=['原表中文名','数据项名称new'],right_on=['表名','数据项名称old'], how='left').drop(columns=['原表中文名'],axis=1)
+    df_m2.to_excel(r'D:\文档\输出结果2.xlsx',index=False)
+    
+    
+    
+    
+    
+    # df_old_1.to_excel(r'D:\文档\输出结果2.xlsx',index=False)
     
 
 
