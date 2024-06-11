@@ -11,6 +11,9 @@
 - 测试没有用git config --global http.sslVerify "false"，是否能推送成功
 - 测试关闭梯子是否推送成功
 - 等待一段时间重新打开VScode进行验证
+- git config user.name FancyNot04
+- git config user.email ??
+
 
 **学习进度**:
 - pandas基础语法大概学完，缺少运用
