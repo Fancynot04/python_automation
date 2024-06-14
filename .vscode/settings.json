@@ -1,5 +1,0 @@
-{
-    "workbench.editorAssociations": {
-        "file:/**/*.csv": "jupyter-data-wrangler"
-    }
-}

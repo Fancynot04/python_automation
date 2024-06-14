@@ -1,11 +1,11 @@
 ## python_automation
 
-> 一些打工人所需的python脚本
-> 持续更新中...
-> 准备学习单片机相关的知识 [51单片机]
-> 使用DataWrangler对csv文件进行清洗转换
-> [python cookbook](https://python-cookbook.readthedocs.io/zh-cn/latest)
-> pip3 install ipykernel -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+> - 一些打工人所需的python脚本
+> - 持续更新中...
+> - 准备学习单片机相关的知识 [51单片机]
+> - 使用DataWrangler对csv文件进行清洗转换
+> - [python cookbook](https://python-cookbook.readthedocs.io/zh-cn/latest)
+> - pip3 install ipykernel -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
 
 **注意事项**：
 - 每次先从GitHub拉取再提交，防止不一致冲突
