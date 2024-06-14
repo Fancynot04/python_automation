@@ -3,7 +3,8 @@
 > 一些打工人所需的python脚本
 > 持续更新中...
 > 准备学习单片机相关的知识 [51单片机]
-
+> 使用DataWrangler对csv文件进行清洗转换
+> [python cookbook](https://python-cookbook.readthedocs.io/zh-cn/latest)
 > pip3 install ipykernel -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
 
 **注意事项**：
@@ -24,10 +25,10 @@
 
 ## Python with Pandas
 
-格式要求：
-    1. 装到统一的容器中，要求表名在pandas处理前就能够统一，方便操作
-    2. 对于空行、重复可以pandas处理，尽量做好关联字段一致
-    3. 关联字段列名不同时都会保留，列名相同时只保留一个
+*格式要求*：
+1. 装到统一的容器中，要求表名在pandas处理前就能够统一，方便操作
+2. 对于空行、重复可以pandas处理，尽量做好关联字段一致
+3. 关联字段列名不同时都会保留，列名相同时只保留一个
 
 一、pandas中的基本数据结构
 ```properties
@@ -146,4 +147,55 @@ DataFrame 函数操作
 条件查询
     SELECT * FROM tips WHERE time = 'Dinner' LIMIT 5;
     tips[tips['time'] == 'Dinner'].head(5)
+```
+
+## Python with Numpy
+一、基础概念
+```
+    # 0.数组的创建
+    arr_1d = numpy.array([1,2,3], dtype=complex) # 设置数据类型
+    arr_2d = numpy.array(arr_1d,ndmin=2) # 保证维度至少为2
+    arr_33 = numpy.eye(3) # 3x3的单位阵
+    arr_range = numpy.arange(1,10,2) # 从1-10步长为2的一维阵
+    arr_4 = numpy.asarray(arr_1d) # 这里参数可以是 列表、元组、列表元组组合、多维数组
+    # numpy.frombuffer 用于实现动态数组。
+    arr_iter = numpy.fromiter(iter(range(5)), dtype=numpy.int64, count=-1)
+    # a = np.linspace(1,1,10) 设置等差数列， logspace设置等比数列
+       
+    # 1.创建数据类型对象dtype
+    dt1 = numpy.dtype('>i4') # 大端法，int32
+    dt2 = numpy.dtype([('age',numpy.int64)])
+    # 1.2创建一个结构化数据类型Student(dtype),并应用到ndarray
+    student = numpy.dtype([
+        ('name','S20'), 
+        ('age',numpy.int8),
+        ('marks',numpy.float32)
+    ]) # 'S20' 'i1' 'f4'
+    stu = numpy.array([('abc', '2', 50),('xyz', 18, 75)], dtype = student) # 强转类型，转不了报错
+    
+    # 2.类型转换
+    ra = numpy.random.random(4) # 长度为4的整型数组
+    ra.dtype = 'float64' # 会改变数组的长度
+    ra_1 = ra.astype('int64') # 不会改变数组的长度
+
+    # 3.数组属性
+    print('ra_1 :\n',ra_1.flags) # 返回内存信息
+    z = numpy.zeros((2,2), dtype = [('x', 'i4'), ('y', 'i4')])
+    print('维度: ',arr_1d.ndim) # 打印维度
+
+    # 4.切片方式同python，添加slice方法？
+    a = numpy.arange(10)
+    s = slice(2,7,2)   # 从索引 2 开始到索引 7 停止，间隔为2
+    print (a[s])
+
+    # 5.高级索引,整数数组索引，布尔索引，花式索引，BroadCast
+    x=numpy.arange(32).reshape((8,4))
+    a = numpy.array([[ 0, 0, 0],
+            [10,10,10],
+            [20,20,20],
+            [30,30,30]])
+    b = numpy.array([1,2,3])
+    #  bb = numpy.tile(b, (4, 1))
+    print(a + b)
+
 ```
