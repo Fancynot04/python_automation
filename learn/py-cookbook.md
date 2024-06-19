@@ -70,6 +70,69 @@ print(heapq.heappop(nums)) # 弹出堆顶元素，并重排小根堆
 ```
 
 
+4.实现一个优先级队列
+
+```python
+"""
+前置内容：python中的比较
+	如下，直接进行a<b比较会抛出TypeError异常,必须在类中重定义 如 __lt__ 方法(less than)实现类的方法
+		isinstance(other,Item): # 当两个对象都是Item的实例时	 
+		return NotImplemented  # 当other不是Item的实例时返回，python会尝试使用other的__gt__方法进			行逆向比较，如果other也返回NotImplemented，则最终python还是会抛出TypeError异常
+	对于a_t,b_t这类元组类型，python会从第一个元素开始比较，如果不相同则直接返回布尔值，相同才会对后面实例进     行比较，所以这里能正常运行
+"""
+class Item:
+    def __init__(self,name) -> None:
+        self.name = name
+    def __repr__(self) -> str:
+        return 'Item({!r})'.format(self.name)
+    def __lt__(self,name):
+        if isinstance(other,Item): # 当两个对象都是Item的实例时
+            return self.name < self.name
+        return NotImplemented 
+a = Item('bob')
+b = Item('john')
+a_t = (1,a)
+b_t = (2,b)
+```
+
+> 借用python的比较特性，实现优先级队列
+
+```python
+import heapq
+
+ """
+    self._queue = [] 
+    	# 变量前面加_是一种约定成俗的规定，表示其是私有，受保护的
+    return heapq.heappop(self._queue)[-1] 
+    	# 移除小根堆（队列）中队头元素，并返回元素（）里最后一个元素
+    heapq.heappush(self._queue, (-priority, self._index, item)) 
+    	# heappush(heap,item) 插入的是三元组，通过三元组的比较形成构建大根堆（优先级取反），
+    	并通过_index保证同优先级元素按照‘先来先到’进行排序，也保证了其不会到三元组最后一个元素（item对象）
+    	的比较，如上，没有重写比较方法会抛出TypeError异常
+ """
+class PriorityQueue:
+   
+    def __init__(self) -> None:
+        self._queue = [] 
+        self._index = 0
+    def push(self, item, priority):
+        heapq.heappush(self._queue, (-priority, self._index, item))
+        self._index += 1 
+    def pop(self):
+        return heapq.heappop(self._queue)[-1] 
+q = PriorityQueue()
+q.push(Item('A'), 1)
+q.push(Item('B'), 3)
+q.push(Item('C'), 1)
+q.push(Item('D'), 8)
+q.push(Item('E'), 11)
+q.pop()
+q.pop()
+q.pop()
+q.pop()
+q.pop() # pop顺序为 E,D,B,A,C
+```
+
 
 
 
