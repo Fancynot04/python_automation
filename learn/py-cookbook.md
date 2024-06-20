@@ -70,7 +70,40 @@ print(heapq.heappop(nums)) # 弹出堆顶元素，并重排小根堆
 ```
 
 
+4.字典中的键映射多个值& 通过某个字段将记录分组 & 字典排序
+```python
+from collections import defaultdict
+    
+"""
+    defaultdict在被访问时会自动为每个新键提供默认值0,不会抛出TypeError异常
+    应用如统计元素的频率,对数据进行group by分组
+"""
+# 例1
+dd = defaultdict(int)
+print(dd['c']) # 返回默认值 0
+dl = defaultdict(list)
+dl['a'].append(1)
+dl['a'].append(2)
+dl['b'].append(3)
+print(dl)
+# 例2
+rows = [
+    {'address': '5412 N CLARK', 'date': '07/03/2012'},
+    {'address': '5148 N CLARK', 'date': '07/04/2012'},
+    {'address': '5800 E 58TH', 'date': '07/02/2012'},
+    {'address': '2122 N CLARK', 'date': '07/03/2012'},
+    {'address': '5645 N RAVENSWOOD', 'date': '07/02/2012'}
+]
+rows_by_date = defaultdict(list)
+for row in rows:
+    rows_by_date[row['date']].append(row) # 根据日期分组
+print(rows_by_date)
 
+"""
+
+"""
+
+```
 
 
 
