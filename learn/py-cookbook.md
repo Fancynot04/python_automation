@@ -69,40 +69,6 @@ print(nums)
 print(heapq.heappop(nums)) # 弹出堆顶元素，并重排小根堆
 ```
 
-
-4.字典中的键映射多个值& 通过某个字段将记录分组 & 字典排序
-```python
-from collections import defaultdict
-    
-"""
-    defaultdict在被访问时会自动为每个新键提供默认值0,不会抛出TypeError异常
-    应用如统计元素的频率,对数据进行group by分组
-"""
-# 例1
-dd = defaultdict(int)
-print(dd['c']) # 返回默认值 0
-dl = defaultdict(list)
-dl['a'].append(1)
-dl['a'].append(2)
-dl['b'].append(3)
-print(dl)
-# 例2
-rows = [
-    {'address': '5412 N CLARK', 'date': '07/03/2012'},
-    {'address': '5148 N CLARK', 'date': '07/04/2012'},
-    {'address': '5800 E 58TH', 'date': '07/02/2012'},
-    {'address': '2122 N CLARK', 'date': '07/03/2012'},
-    {'address': '5645 N RAVENSWOOD', 'date': '07/02/2012'}
-]
-rows_by_date = defaultdict(list)
-for row in rows:
-    rows_by_date[row['date']].append(row) # 根据日期分组
-print(rows_by_date)
-
-"""
-
-"""
-
 ```
 4.实现一个优先级队列
 
@@ -166,6 +132,73 @@ q.pop()
 q.pop()
 q.pop() # pop顺序为 E,D,B,A,C
 ```
+
+5.字典中的键映射多个值& 通过某个字段将记录分组 & 字典排序 & 字典max，min
+```python
+from collections import defaultdict
+    
+"""
+    defaultdict在被访问时会自动为每个新键提供默认值0,不会抛出TypeError异常
+    应用如统计元素的频率,对数据进行group by分组
+"""
+# 例1
+dd = defaultdict(int)
+print(dd['c']) # 返回默认值 0
+dl = defaultdict(list)
+dl['a'].append(1)
+dl['a'].append(2)
+dl['b'].append(3)
+print(dl)
+# 例2
+rows = [
+    {'address': '5412 N CLARK', 'date': '07/03/2012'},
+    {'address': '5148 N CLARK', 'date': '07/04/2012'},
+    {'address': '5800 E 58TH', 'date': '07/02/2012'},
+    {'address': '2122 N CLARK', 'date': '07/03/2012'},
+    {'address': '5645 N RAVENSWOOD', 'date': '07/02/2012'}
+]
+rows_by_date = defaultdict(list)
+for row in rows:
+    rows_by_date[row['date']].append(row) # 根据日期分组
+print(rows_by_date)
+
+# 例3
+"""
+    实际上在python3.7后，dict已经实现了OrderedDict的按插入顺序排序,Python中的标准字典是无序的,但OrderedDict即使在元素被修改（新增，删除，更新）时，会一直保持元素的插入顺序【有此需求就使用】，但会牺牲一部分空间
+"""
+from collections import OrderedDict
+d = OrderedDict()
+d['foo'] = 1
+d['bar'] = 2
+d['grok'] = 3
+d['spam'] = 4
+for key in d:
+    print(key, d[key])
+
+# 例4
+"""
+zip内置函数:
+    1.zip能够让多个可迭代对象的元素组成一个个元组，最终返回一个迭代器对象，如z=zip(iter1,iter2,iter3)
+    2.unzipped(*z)解包
+字典中执行计算操作：
+    1.使用zip颠倒键值,再调用聚合函数
+    2.直接使用d.values获取值进行比较
+    3.在聚合函数中采用匿名函数获取最小/大值的其他信息
+"""
+prices = {
+    'ACME': 45.23,
+    'AAPL': 612.78,
+    'IBM': 205.55,
+    'HPQ': 37.20,
+    'FB': 10.75
+}
+m1 = min(zip(prices.values(),prices.keys())) # (10.75, 'FB')
+m2 = min(prices.values()) # 10.75
+# min 函数遍历的是字典的键，并将键作为参数传递给匿名函数
+m3 = min(prices, key=lambda key: prices[key]) # Returns 'FB'
+
+```
+
 
 
 
