@@ -69,7 +69,7 @@ print(nums)
 print(heapq.heappop(nums)) # 弹出堆顶元素，并重排小根堆
 ```
 
-```
+
 4.实现一个优先级队列
 
 ```python
@@ -133,7 +133,7 @@ q.pop()
 q.pop() # pop顺序为 E,D,B,A,C
 ```
 
-5.字典中的键映射多个值& 通过某个字段将记录分组 & 字典排序 & 字典max，min
+5.字典中的键映射多个值 & 通过某个字段将记录分组 & 字典排序 & 字典max，min & 字典集合操作
 ```python
 from collections import defaultdict
     
@@ -197,10 +197,48 @@ m2 = min(prices.values()) # 10.75
 # min 函数遍历的是字典的键，并将键作为参数传递给匿名函数
 m3 = min(prices, key=lambda key: prices[key]) # Returns 'FB'
 
+# 例5
+"""
+    d.keys()和d.items()支持集合（唯一，无序）操作，如 &交、|并、-减等操作
+"""
+
 ```
 
+6.删除重复元素并保持顺序
+```python
+"""
+前置：是否可哈希
+    判断一个对象是否可哈希化，用hash()
+    一般来说，数字、字符串、元组都是hashable,而其他可变类型都是不能hash
+应用：消除文件的重复行，其中key函数对每行应用
+    with open(r'./single-chip.md', mode='r',encoding='utf-8') as f:
+        for line in dedupe(f):
+            print(line)
 
+"""
+# 可哈希对象：
+def dedupe(items):
+    seen = set()
+    for item in items:
+        if item not in seen:
+            yield item
+        seen.add(item)
+# 这里的list函数会自动调用__next__函数并持续调用dedupe返回值
+list(dedupe([1, 2, 2, 3, 3, 4])) 
 
+# 不可哈希对象:
+# 这里改进之前的代码,自定义匿名函数处理如字典的dedupe,by转化为hashable
+def dedupe(items, key= None):
+    seen = set()
+    for item in items:
+        val = item if key is None else key(item)
+        if val not in seen:
+            yield item
+        seen.add(val)
+d = [{'x': 1, 'y': 2}, {'x': 2, 'y': 3}, {'x': 1, 'y': 2}, {'x': 3, 'y': 4}]
+d_dupe = list(dedupe(d,key=lambda d: (d['x'],d['y'])))
+
+```
 
 
 
