@@ -9,7 +9,7 @@
 
 ## Data Structure Algorithms
 
-1.解压可迭代对象（序列、元组、字符串等）给多个变量：占位符、*表达式
+#### 1.解压可迭代对象（序列、元组、字符串等）给多个变量：占位符、*表达式
 
 ```python
 def sum(items):
@@ -18,7 +18,7 @@ def sum(items):
 print(sum((1,2,3,4)))
 ```
 
-2.保留最后N个元素
+#### 2.保留最后N个元素
 
 ```python
 from collections import deque
@@ -37,7 +37,7 @@ def search(lines, pattern, history=5):
         previous_lines.append(li)
 ```
 
-3.查找N个最大或最小的元素
+#### 3.查找N个最大或最小的元素
 
 > 堆：这里的堆为顺序存储的方式，通过二叉树对最后一个有孩子结点的结点(n/2向下取整)进行子内元素的比较，
 >
@@ -70,7 +70,7 @@ print(heapq.heappop(nums)) # 弹出堆顶元素，并重排小根堆
 ```
 
 
-4.实现一个优先级队列
+#### 4.实现一个优先级队列
 
 ```python
 """
@@ -133,7 +133,7 @@ q.pop()
 q.pop() # pop顺序为 E,D,B,A,C
 ```
 
-5.字典中的键映射多个值 & 通过某个字段将记录分组 & 字典排序 & 字典max，min & 字典集合操作
+#### 5.字典中的键映射多个值 & 通过某个字段将记录分组 & 字典排序 & 字典max，min & 字典集合操作
 ```python
 from collections import defaultdict
     
@@ -204,7 +204,7 @@ m3 = min(prices, key=lambda key: prices[key]) # Returns 'FB'
 
 ```
 
-6.删除重复元素并保持顺序
+#### 6.删除重复元素并保持顺序
 ```python
 """
 前置：是否可哈希
@@ -239,9 +239,116 @@ d = [{'x': 1, 'y': 2}, {'x': 2, 'y': 3}, {'x': 1, 'y': 2}, {'x': 3, 'y': 4}]
 d_dupe = list(dedupe(d,key=lambda d: (d['x'],d['y'])))
 
 ```
+#### 7.slice切片对象 & 单词统计 & 通过某个关键字排序一个字典列表
+```python
+"""
+    方便理解和使用，貌似没有其他作用？
+    a = slice(start,stop,step)
+    a.start/stop/step
+"""
+record = '....................100 .......513.25 ..........'
+SHARES = slice(20,23)
+PRICES = slice(31,37)
+cost = int(record[SHARES]) * float(record[PRICES]) 
 
 
+"""
+    Counter统计
+    支持词频排序、单词扩增
+    且支持Counter对象的加减运算 a+b、a-b
+"""
+from collections import Counter
+words = [
+    'look', 'into', 'my','into', 'eyes','eyes','eyes', 'look', 'into', 'my', 'eyes'
+]
+word_counts = Counter(words)
+# 返回最多的前四个
+a = word_counts.most_common(4)
+# 添加字段
+morewords = ['why','are','you','not','looking','in','my','eyes']
+b = word_counts.update(morewords)
 
+```
 
+#### 8.itemgetter & attrgetter
+> 都可以用匿名函数来代替，效率上会有些许差异
+> 排序不支持原生比较的对象
+```python
+"""
+    itemgetter函数是callable的，作用于字典类型
+"""
+from operator import itemgetter
+rows = [
+    {'fname': 'Brian', 'lname': 'Jones', 'uid': 1003},
+    {'fname': 'David', 'lname': 'Beazley', 'uid': 1002},
+    {'fname': 'John', 'lname': 'Cleese', 'uid': 1001},
+    {'fname': 'Big', 'lname': 'Jones', 'uid': 1004}
+]
 
+m = max(rows, key= itemgetter('uid'))
+s = sorted(rows, key= itemgetter('uid'))
+
+"""
+    attrgetter作用于对象
+"""
+by_name = sorted(users, key=attrgetter('last_name', 'first_name'))
+```
+
+#### 9.过滤序列元素 & 推导式
+
+```python
+"""
+    列表推导式 & 生成器表达式（可以不加小括号）
+        [x*2 for x in range(10)] 
+        一次性生成所有数据并返回列表
+        (x*2 for x in range(10)) 
+        返回生成器对象，只有迭代时才会返回一个数据，处理大量数据时通常更加内存友好
+
+"""
+
+"""
+    过滤
+    pos = (n for n in mylist if n > 0)
+    clip_neg = [n if n > 0 else 0 for n in mylist]
+    filter(function,iterable) 返回生成器
+    compress() 它允许你基于一个选择器迭代器来压缩（过滤）另一个可迭代对象中的元素。
+"""
+values = ['1', '2', '-3', '-', '4', 'N/A', '5']
+def is_int(val):
+    try:
+        x = int(val)
+        return True
+    except ValueError:
+        return False
+ivals = list(filter(is_int, values))
+
+# 基于选择器过滤
+from itertools import compress
+addresses = [
+    '5412 N CLARK',
+    '5148 N CLARK',
+    '5800 E 58TH',
+    '2122 N CLARK',
+    '5645 N RAVENSWOOD',
+    '1060 W ADDISON',
+    '4801 N BROADWAY',
+    '1039 W GRANVILLE',
+]
+counts = [ 0, 3, 10, 4, 1, 7, 6, 1]
+
+more5 = [n>5 for n in counts]
+list(compress(addresses, more5))
+
+# 字典推导式
+prices = {
+    'ACME': 45.23,
+    'AAPL': 612.78,
+    'IBM': 205.55,
+    'HPQ': 37.20,
+    'FB': 10.75
+}
+p1 = {key: value for key, value in prices.items() if value > 200}
+p2 = dict((key,value) for key, value in prices.items() if value > 200)
+print(p2)
+```
 
