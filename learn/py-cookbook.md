@@ -305,6 +305,9 @@ by_name = sorted(users, key=attrgetter('last_name', 'first_name'))
         返回生成器对象，只有迭代时才会返回一个数据，处理大量数据时通常更加内存友好
 
 """
+# 这里展示了join函数对待可迭代对象时的处理方法，边迭代边处理
+s = ('ACME', 50, 123.45)
+print(','.join(str(x) for x in s)) 
 
 """
     过滤
@@ -352,3 +355,32 @@ p2 = dict((key,value) for key, value in prices.items() if value > 200)
 print(p2)
 ```
 
+#### 10.命名元组 & ChainMap
+```python
+"""
+    对结构化元组序列进行处理，通过名称去访问元素
+    但不可以更改元素值，只能通过s = s._replace(shares=75)重新创建一个
+"""
+from collections import namedtuple
+
+Stock = namedtuple('Stock', ['name', 'shares', 'price'])
+def compute_cost(records):
+    total = 0.0
+    for rec in records:
+        s = Stock(*rec) # 元组解包
+        total += s.shares * s.price
+    return total
+records = (('ACME', 110, 123.45),
+    ('BCME', 120, 123.45),
+    ('CCME', 130, 123.45),
+    ('DCME', 140, 123.45))
+# 计算所有人的持股总额
+compute_cost(records)
+
+"""
+    ChainMap合并字典，使用的是原来的字典，如果键重复则用第一个值
+    或者使用d1.update(d2)，这里新创建一个字典
+"""
+```
+
+## String And Text
