@@ -384,3 +384,75 @@ compute_cost(records)
 ```
 
 ## String And Text
+略
+
+## File And IO
+
+#### 1.open函数 & print函数
+> 打开文件
+```python
+"""
+    mode = 'rt/wt/wb/a'
+        rt 只读+文本
+        wb 覆盖写+二进制
+        a+ 追加写+读取
+        x 仅当文件不存在时才写入，否则报错
+    encoding='utf-8'
+        ascii, latin-1, utf-8和utf-16
+    errors='ignore'
+        编码格式不正确时采用的策略：ignore,replace
+"""
+with open('Learn-Record.txt',encoding='ascii' ,errors='ignore') as f:
+    count = 0
+    for line in f:
+        count += 1
+        print('{:d} {}'.format(count,line.strip())) # strip默认去除换行或空格符   
+
+"""
+    print支持指定间隔符、行尾符、重定向输出
+"""
+# print函数支持重定向到文件对象中
+print('Hello World!', '是这样的',sep='&&',end=' ', file=f)
+# str.join()完成同样的分隔操作
+print(','.join(str(x) for x in row))
+# 解包实现
+print(*row, sep=',')
+
+   
+# decode方法将这些字节数据解码成字符串,同理encode 
+data = b'\xe4\xbd\xa0\xe5\xa5\xbd' 
+text = data.decode('utf-8') 
+```
+
+
+#### 2.类文件对象 
+```python
+"""
+    io.StringIO
+    io.ByteIO
+    一般用于测试？
+"""
+import io
+
+s = io.StringIO()
+s.write('Hello,World!\n')
+print('Fake News!', file=s)
+s.getvalue()
+# write操作会使文件指针移到末尾
+s.seek(0)
+s.read(4)
+```
+
+#### 3.按固定大小块读取二进制文件
+```python
+"""
+    解释：iter函数接收一个可迭代对象作为参数，同时还有一个可选的sentinel(哨兵),
+    当迭代器返回的值等于sentinel，迭代会停止；其中partial会将文件根据参数大小进行分块
+"""
+from functools import partial
+RECORD_SIZE = 32 
+with open('后退.mp3',mode='rb') as f:
+    records = iter(partial(f.read, RECORD_SIZE), b'')
+    for r in records:
+        ...
+```
