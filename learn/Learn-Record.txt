@@ -1,9 +1,0 @@
-> 0626 
-morning: 信托 -> 表关系、信托相关概念
-afternoon:python
-evening: spark
-
-> 0627 
-morning: east4\dqbs -> 问答、dqbs结构
-afternoon:python
-evening: userProfileHELLO WORLD!

@@ -5,6 +5,54 @@
 > 3. yield在函数中创建迭代器，函数在调用时不会立即执行，会返回一个迭代器对象，执行到yield时候会暂停，返回其值;
 > 4. 只有在下一次调用next时才会执行，同上；而for语句会自动遍历;
 
+## Low-level code logic 
+#### 1.dis & exec
+```python
+"""
+    常用方法：dis、compile、exec
+    执行过程：
+        0 LOAD_CONST   加载常量到操作栈
+        2 STORE_FAST   将操作栈的值存储到局部变量
+        4 LOAD_FAST    加载局部变量到操作栈
+        6 GET_ITER     获取迭代器，并推送到操作栈
+        8 FOR_ITER     开始for循环
+        10 STORE_FAST   
+
+        12 LOAD_FAST    
+        14 LOAD_GLOBAL  加载全局函数str到操作栈上
+        16 LOAD_FAST    
+        18 CALL_FUNCTION    调用栈顶函数并传入参数，将结果推送到操作栈
+        20 INPLACE_ADD  将操作栈的两个值进行连接，并替换成结果值
+        22 STORE_FAST   
+        24 JUMP_ABSOLUTE    无条件跳转
+                        
+        26 LOAD_FAST    
+        28 RETURN_VALUE
+"""
+import dis 
+
+def func(L:list) ->str:
+    str1 = ''
+    for i in L:
+        str1 += str(i)
+    return str1
+
+# 返回python虚拟机执行代码的底层逻辑（反汇编）
+dis.dis(func)
+
+
+code = """  
+def example_func(x):  
+    return x + 1 
+print(example_func(2))
+"""  
+  
+# 注意：这里需要先将字符串编译成代码对象  
+code_obj = compile(code, 'example_string', 'exec')  
+exec(code_obj)
+```
+
+
 
 
 ## Data Structure Algorithms
@@ -77,8 +125,8 @@ print(heapq.heappop(nums)) # 弹出堆顶元素，并重排小根堆
 前置内容：python中的比较
 	如下，直接进行a<b比较会抛出TypeError异常,必须在类中重定义 如 __lt__ 方法(less than)实现类的方法
 		isinstance(other,Item): # 当两个对象都是Item的实例时	 
-		return NotImplemented  # 当other不是Item的实例时返回，python会尝试使用other的__gt__方法进			行逆向比较，如果other也返回NotImplemented，则最终python还是会抛出TypeError异常
-	对于a_t,b_t这类元组类型，python会从第一个元素开始比较，如果不相同则直接返回布尔值，相同才会对后面实例进     行比较，所以这里能正常运行
+		return NotImplemented  # 当other不是Item的实例时返回，python会尝试使用other的__gt__方法进行逆向比较，如果other也返回NotImplemented，则最终python还是会抛出TypeError异常
+	对于a_t,b_t这类元组类型，python会从第一个元素开始比较，如果不相同则直接返回布尔值，相同才会对后面实例进行比较，所以这里能正常运行
 """
 class Item:
     def __init__(self,name) -> None:
@@ -231,7 +279,7 @@ list(dedupe([1, 2, 2, 3, 3, 4]))
 def dedupe(items, key= None):
     seen = set()
     for item in items:
-        val = item if key is None else key(item)
+        val = item if key is None else key(item) # 把item作为参数传入匿名函数key
         if val not in seen:
             yield item
         seen.add(val)
@@ -400,7 +448,7 @@ compute_cost(records)
     encoding='utf-8'
         ascii, latin-1, utf-8和utf-16
     errors='ignore'
-        编码格式不正确时采用的策略：ignore,replace
+        编码格式不正确时采用的策略：ignore,replace,下面有类似的扩展
 """
 with open('Learn-Record.txt',encoding='ascii' ,errors='ignore') as f:
     count = 0
@@ -455,4 +503,60 @@ with open('后退.mp3',mode='rb') as f:
     records = iter(partial(f.read, RECORD_SIZE), b'')
     for r in records:
         ...
+```
+#### 4.文件常用操作
+```python
+"""
+    脚本必备
+"""
+import os 
+path = '/Users/beazley/Data/data.csv'
+os.path.dirname(path)
+os.path.basename(path)
+os.path.join('tmp','data',path)
+os.path.expanduser('~/data/data.csv') # 'C:\\Users\\xhh鱼酱/data/data.csv'
+os.path.splitext(path) # ('/Users/beazley/Data/data', '.csv')
+
+# 文件是否存在，最终都会返回True，False
+os.path.exists('/etc/passwd')
+os.path.isfile('/etc/passwd')
+os.path.isdir('/etc/passwd')
+os.path.islink('/usr/local/bin/python3')
+os.path.realpath('/usr/local/bin/python3')
+
+# 获取文件夹中的文件列表
+names = [name for name in os.listdir('D:\donghua') if os.path.isfile(os.path.join('D:\donghua', name))]
+pynames = [name for name in os.listdir('D:\donghua') if name.endwith('.py')]
+
+
+"""
+    处理非正常编码的文件名
+    errors参数，同其他函数中的一样，提供多种对于无法正常编码时的处理方式
+        如：ignore,replace,xmlcharrefreplace,surrogateescape
+"""
+import sys  
+def bad_filename(filename):
+    temp = filename.encode(sys.getfilesystemencoding(), errors='surrogateescape')
+    return temp.decode('latin-1')
+
+
+def safe_print(s):  
+    try:  
+        print(s.encode('ascii', 'xmlcharrefreplace').decode('ascii'), end='')  
+    except UnicodeEncodeError:  
+        # 如果s已经是str且包含无法编码的字符，上面的尝试可能会失败  
+        # 这里可以添加额外的错误处理逻辑  
+        pass  
+  
+# 使用这个函数代替print  
+safe_print("Hello, 🌁🌁🌁世界!🌞🌞")
+```
+
+
+#### 5.python的IO分层结构
+```markdown
+- 高级抽象层        提供常见的IO操作     
+- 缓冲层            数据会先缓冲在内存的一个缓冲区
+- 操作系统接口层     C语言级别的系统调用与OS进行交互
+- 硬件层            计算机的磁盘读写，网络通信
 ```
