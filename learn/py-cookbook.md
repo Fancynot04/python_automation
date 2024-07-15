@@ -560,3 +560,29 @@ safe_print("Hello, 🌁🌁🌁世界!🌞🌞")
 - 操作系统接口层     C语言级别的系统调用与OS进行交互
 - 硬件层            计算机的磁盘读写，网络通信
 ```
+from selenium import webdriver
+import time 
+
+"""
+    assert title == "Web form", "页面标题不是预期的'Web form'" 
+        条件不满足时，触发异常  
+    from webdriver_manager.chrome import ChromeDriverManager  
+        # 使用WebDriverManager自动管理chromedriver  
+        driver = webdriver.Chrome(ChromeDriverManager().install())  
+        
+"""
+# 获取驱动位置并生成对象
+browser = webdriver.Chrome(r"D:\bigdata\software\chromedriver.exe",)
+browser.get(r'https://baidu.com')
+browser.set_window_size(1000,500)  
+# 浏览器的前进和后退
+browser.get(r'https://www.bilibili.com/')
+browser.back()
+browser.forward()
+time.sleep(2)
+print(browser.title)
+print(browser.current_url)
+print(browser.page_source[:100])
+with open(r'D:\workspace\python_automation\learn\Learn-Record.html',mode='w',encoding='utf-8') as f: # 默认,errors='strict'
+    f.write(browser.page_source)
+browser.close()
