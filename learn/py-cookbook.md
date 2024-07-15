@@ -432,7 +432,10 @@ compute_cost(records)
 ```
 
 ## String And Text
-略
+待补充...
+1. 字符串的多种匹配方式
+2. 处理字符串过程中的编码问题
+
 
 ## File And IO
 
@@ -560,6 +563,9 @@ safe_print("Hello, 🌁🌁🌁世界!🌞🌞")
 - 操作系统接口层     C语言级别的系统调用与OS进行交互
 - 硬件层            计算机的磁盘读写，网络通信
 ```
+
+#### 6.Selenium
+```python
 from selenium import webdriver
 import time 
 
@@ -586,3 +592,4 @@ print(browser.page_source[:100])
 with open(r'D:\workspace\python_automation\learn\Learn-Record.html',mode='w',encoding='utf-8') as f: # 默认,errors='strict'
     f.write(browser.page_source)
 browser.close()
+```
