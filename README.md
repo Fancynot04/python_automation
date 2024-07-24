@@ -21,8 +21,8 @@
 - pandas基础语法大概学完，缺少运用
 - 51单片机数电基础中...
 - react尚未开始...
-- userProfile虚拟机安装完毕，尚未配置环境
-- cookbook迭代器->反向迭代暂停
+- 建立userProfile的整体映像->实操
+- cookbook迭代器->反向迭代暂停;递归下降分析器
 
 ## Python with Pandas
 
