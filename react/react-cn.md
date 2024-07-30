@@ -9,11 +9,71 @@ function HelloMessage(props) {
 const element = <HelloMessage name="john"/>;
 //3.标签绑定dom元素
 const root = ReactDOM.createRoot(document.getElementById("root"));
-//4.组件渲染
+//4.组件渲染,只需找出父组件的render,就能看清整个的html结构
 root.render(
     element
 );
 ```
+## 箭头函数 & this
+> 箭头函数,更简短的函数且不绑定this（不更改this指向）
+```js
+// 基本格式，单一参数或单一表达式时，无需加外层()或 {}
+(params) => {function statement}
+```
+> call,apply,bind
+```js
+function greet(greeting, punctuation) {  
+    console.log(greeting + ', ' + this.name + punctuation);  
+}  
+const person = {  
+    name: 'Alice'  
+};  
+// 使用call调用greet函数，并设置this为person对象  
+greet.call(person, 'Hello', '!');  
+
+// 使用apply调用greet函数，并设置this为person对象，参数作为数组传递
+greet.apply(person, ['Hi', '.']);  
+
+// 使用bind创建一个新函数，其this被绑定到person对象  
+const boundGreet = greet.bind(person, 'Howdy');  
+// 调用boundGreet，并传递剩余的参数  
+console.log(boundGreet('!'));  
+```
+
+## Props
+> props（属性）<br/>
+> 1.将数据从父组件传入子组件的机制，对子组件只读；而定义state可以用来更新和修改数据<br/>
+>   A.父组件使用state定义，子组件采用props获取<br/>
+> 2.默认props：defaultProps设置组件的默认属性值<br/>
+> 3.propsType：对props进行类型检查<br/>
+> 4.解构props：简化代码<br/>
+> 5.传递回调函数：父组件可将函数作为props传递给子组件<br/>
+```js
+// 解构props,这里{ name }代替props, 下面name代替this.props.name
+const Greeting = ({ name }) => {
+  return <h1>Hello, {name}!</h1>;
+};
+const App = () => {
+  return <Greeting name="Alice" />;
+};
+
+// prop-types地址
+<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/prop-types/15.8.1/prop-types.min.js" type="application/javascript"></script>
+static propTypes = {
+    title: PropTypes.string.isRequired, // 必须是字符串且必需
+    age: PropTypes.number,              // 可选的数字
+    isAdmin: PropTypes.bool,            // 可选的布尔值
+    user: PropTypes.shape({             // 必须是具有特定形状的对象
+      name: PropTypes.string,
+      email: PropTypes.string
+    }),
+    options: PropTypes.oneOf(['option1', 'option2']), // 必须是特定值之一
+};
+
+// 利用函数回调实现子父组件属性同步更新？
+```
+
+
 
 ## Q: 
     1.return {} 和 return () 区别？</br>
