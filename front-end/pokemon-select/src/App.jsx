@@ -1,9 +1,9 @@
 const App = () => {
     const [pokemons, setPokemons] = React.useState([]);
-    const [filteredPokemons, setFilteredPokemons] =React.useState([]);
+    const [filteredPokemons, setFilteredPokemons] = React.useState([]);
     const onChangeHandler = (event) => {
         const comparedPokemons = pokemons.filter(
-            pokemon => { return pokemon.name.includes(event.target.value)}
+            pokemon => { return pokemon.name.includes(event.target.value) }
         )
         setFilteredPokemons(comparedPokemons);
     }
@@ -12,24 +12,29 @@ const App = () => {
             .then(res => res.json())
             .then(json => {
                 // 响应时，给每个result添加id
-                json.results.map((result, index) =>{
+                json.results.map((result, index) => {
                     result.id = index + 1;
                 });
                 setPokemons(json.results);
                 setFilteredPokemons(json.results);
             });
-    },[])
-    
+    }, [])
+
 
     return (
-        <div>
-            <h1>Pokemon</h1>
-            <Input onChangeHandler = { onChangeHandler }/>
-            <Lists pokemonLists= { filteredPokemons }/>
-        </div> 
+        <div className="app">
+            <div className="topbar">
+                <h1>Pokemon</h1>
+                <Input onChangeHandler={onChangeHandler} />
+            </div>
+            <hr />
+            <Lists pokemonLists={filteredPokemons} />
+        </div>
     )
 }
 
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
 
 
 

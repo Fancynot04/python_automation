@@ -1,8 +1,15 @@
+
 const Input = ({ onChangeHandler }) => {
     return (
-        <input type="Search" onChange= { onChangeHandler } />
+        <div className="searchbar" >
+            <span class="material-symbols-outlined">
+                search
+            </span>
+            <input type="text" onChange={onChangeHandler} placeholder="Search for pokemon" />
+        </div>
     );
 };
+
 
 /*class Input extends React.Component {
     render() { 

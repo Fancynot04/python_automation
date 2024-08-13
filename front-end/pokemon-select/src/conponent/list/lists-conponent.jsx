@@ -8,7 +8,7 @@ const Lists = ({ pokemonLists }) => {
         {
             pokemonLists.map((pokemon) => {
                 return (
-                    <div key= { pokemon.url }>
+                    <div className="ul-item" key= { pokemon.url }>
                         <li >{ pokemon.name }</li>
                         <img 
                             src={ `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png` }

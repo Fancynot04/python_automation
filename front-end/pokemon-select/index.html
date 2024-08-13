@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Pokemon Search</title>
+    <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/react/18.2.0/umd/react.production.min.js"></script>
+    <script
+        src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/babel-standalone/6.26.0/babel.min.js"></script>
+    <link rel="stylesheet" href="src/conponent/list/lists-style.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .app {
+            width: 100vw; 
+        }
+        h1{
+            color: yellowgreen;
+        }
+
+        .topbar {
+            display: flex;
+            height: 20px;
+            align-items: center;
+            margin:20px;
+        }
+        .searchbar{
+            width: 30%;
+            margin-left: 20px;
+            padding: 5px;
+            background-color: #d1d1d1;
+            display: flex;
+            align-items: center;
+            border-radius: 30px;
+        }
+        .material-symbols-outlined{
+            margin-left: 5px;
+        }
+        input {
+            width: 80%;
+            border-radius: 5px;
+            margin-left: 10px;
+            padding: 5px;
+            border: none;
+        }
+
+        input:focus{
+            outline: none;
+        }
+        hr{
+            color: grey;
+            
+        }
+        
+
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel" src="src/conponent/input/input-conponent.jsx"></script>
+    <script type="text/babel" src="src/conponent/list/lists-conponent.jsx"></script>
+    <script type="text/babel" src="src/App.jsx"></script>
+</body>
+
+</html>
