@@ -1,0 +1,43 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+    /* 之后设置的尺寸中直接包含内边距和边框、外边距 */
+}
+
+body,html{
+    overflow: hidden;
+    /* 当元素内容超出其指定大小 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container{
+    display: flex;
+    width: 90vw;
+}
+
+.container > .panel {
+    /* 背景图像的显示方式：不重复、覆盖整个区域、视觉居中 */
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-position: center;
+
+    flex: 0.5;
+    border-radius: 30px;
+    height: 90vh;
+    padding: 10px;
+    /* 内边距是内容的，不是背景图片的 */
+    margin: 10px;
+    color: #fff;
+
+    /* 设置元素在状态变化时的过渡效果 css属性，持续时间，时间函数 */
+    transition:flex .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    cursor: pointer;
+}
+
+.container > .panel.active {
+    flex: 5;
+}

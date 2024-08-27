@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>progress-step</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="progress-container">
+            <div class="progress" id="progress"></div>
+            <div class="circle active">1</div>
+            <div class="circle">2</div>
+            <div class="circle">3</div>
+            <div class="circle">4</div>
+        </div>
+        <!-- type默认为submit,当不被指定时,在提交表单时也会被提交 -->
+        <button type="button" class="prev disabled" id="prev">上一步</button>
+        <button type="button" class="next active" id="next">下一步</button>
+    </div>
+</body>
+<script src="./script.js"></script>
+</html>
