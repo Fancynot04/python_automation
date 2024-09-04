@@ -15,12 +15,12 @@
 - shift+alt+↑/↓
 
 **学习进度**:
-- pandas基础语法大概学完，运用范围狭窄 --> 
-- react 初步实现 pokemon demo --> 学习react-social 🌞 --> html/css/js基础控制
-- 整个GBA（*焊接，系统设计*，blender建模）--> 工具、器件购买 --> 已实现一个,但不太完美
--  51单片机数电基础中 --> 暂停
-- 建立userProfile的整体映像 --> 实操
-- cookbook迭代器 --> 反向迭代暂停;递归下降分析器 --> 暂停
+- pandas --> explode
+- spark --> userProfile
+- react --> react-social😊 --> html/css/js basic control
+- cookbook --> iterator --> pause
+- soldering --> primary realization
+- 51 Micro Controller Unit --> pause
 
 **学习思路**:
 ```

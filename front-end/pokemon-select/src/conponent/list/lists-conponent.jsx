@@ -1,7 +1,6 @@
 const Lists = ({ pokemonLists }) => {
     const imgCSS = {
-        border: "1px solid darkorange",
-        borderRadius:"10px",
+        border: "none",
     };
     return (  
         <ul className="ul-container"> 

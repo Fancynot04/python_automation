@@ -57,6 +57,7 @@ def loginParm():
     return d_config.values() 
 
 
+
 # 1.参数定义
 XTCPDM = ['20024','1103','212452001','220438001','12062']
 TABLE_LIST = ['east_xtcpjbxx','east_xtyyxx','east_xtsyqzrxx','east_xtmjfpls']
