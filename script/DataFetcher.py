@@ -150,9 +150,9 @@ class DataFetcher:
         """
             输出到excel\n
             type:\n
-                1: 指定采集日期
-                2: 最新时点数据
-                3: 指定产品的累计数据
+                1: 指定采集日期 cjrq=date(?)
+                2: 最新时点数据 rn=1
+                3: 指定产品的累计数据 
         """
         with pd.ExcelWriter(output_path,engine='openpyxl') as writer:
             num=0
@@ -169,13 +169,20 @@ class DataFetcher:
         return "ヾ(￣▽￣)Bye~Bye~"
     
     
-    @atexit.register
     def _close_conn(self):
-        """
-            Auto close the connection
-        """
         self.conn.close()
    
+global_instance = []
+
+def close_all_conn():
+    """
+        Auto close the connection
+        未正常关闭,自动调用时会缺失self参数
+    """
+    for instance in global_instance:
+        instance._close_conn()
+atexit.register(close_all_conn)
+
 
 if __name__ == '__main__':
     conn = DataFetcher(187) # 25,187
