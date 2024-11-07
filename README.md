@@ -15,11 +15,11 @@
 - shift+alt+↑/↓
 
 **学习进度**:
-- pandas --> explode
-- spark --> userProfile
-- react --> react-social😊 --> html/css/js basic control
+- pandas --> explode 
+- 😍bigdata --> review 
+- 😘react --> 😊react-social --> learn css3
 - cookbook --> iterator --> pause
-- soldering --> primary realization
+- soldering --> primary realization --> pause
 - 51 Micro Controller Unit --> pause
 
 **学习思路**:

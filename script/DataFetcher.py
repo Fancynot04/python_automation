@@ -100,7 +100,7 @@ class DataFetcher:
                 xtcpdm_str = str(xtcpdm_list[0])
             else:
                 xtcpdm_str = ','.join(xtcpdm_list)
-            sql_str = f"SELECT * FROM HNEAST4.{table_name} WHERE CJRQ <= '{cjrq}' and XTCPDM IN ('{xtcpdm_str}') " # WHERE xtcpdm in ('{XTCPDM}')
+            sql_str = f"SELECT * FROM HNEAST4.{table_name} WHERE CJRQ = '{cjrq}' and XTCPDM IN ('{xtcpdm_str}') " # WHERE xtcpdm in ('{XTCPDM}')
         else:
             # OTHER CASE 
             print("_sql_select: invaild type, return default sql")    
@@ -122,7 +122,6 @@ class DataFetcher:
         self.primary_columns = df_col[(df_col['COLUMN_KEY']=='PRI') & (df_col['COLUMN_NAME']!='CJRQ')]['COLUMN_NAME'].tolist()
         
         # 表数据
-        
         rs2_code = cursor.execute(self._sql_select(table_name=table_name,type=type,cjrq=cjrq,xtcpdm_list=xtcpdm_list))
         columns = [col[0] for col in cursor.description]
         tmp = pd.DataFrame(cursor.fetchall() if rs2_code else None,columns=columns)
@@ -138,7 +137,7 @@ class DataFetcher:
         rs3_code = cursor.execute(PARM_COLS_INFO)
         columns = [col[0] for col in cursor.description]
         df_map = pd.DataFrame(cursor.fetchall() if rs3_code else None,columns=columns) 
-        self._col_match(df_tab,df_map,self._dict_fetch())
+        self._col_match(df_tab,df_map,self._dict_fetch()) # 不转换时直接注释掉此行
         
         # 列名替换
         mapping_col_dict = dict(zip(df_col['COLUMN_NAME'],df_col['COLUMN_COMMENT']))
@@ -150,9 +149,9 @@ class DataFetcher:
         """
             输出到excel\n
             type:\n
-                1: 指定采集日期 cjrq=date(?)
+                1: 指定采集日期的全量 cjrq=date(?)
                 2: 最新时点数据 rn=1
-                3: 指定产品的累计数据 
+                3: 指定产品的当期数据 
         """
         with pd.ExcelWriter(output_path,engine='openpyxl') as writer:
             num=0
@@ -186,8 +185,8 @@ atexit.register(close_all_conn)
 
 if __name__ == '__main__':
     conn = DataFetcher(187) # 25,187
-    xtcpdm_list = ['201419001']
-    table_list=['east_xtcpjbxx','east_xtyyxx','EAST_XTCPCXQKB']
+    xtcpdm_list = ['240807001']
+    table_list=['east_xtcpjbxx','east_xtyyxx','east_xtzcfztjb']
     info = conn.excel_output(table_list=table_list,type=3,xtcpdm_list=xtcpdm_list,output_path=r'D:/donghua/mission/data_east4.xlsx')
     print(info)
-    
+   
